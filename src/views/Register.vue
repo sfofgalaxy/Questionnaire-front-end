@@ -1,31 +1,34 @@
 <template>
-    <div class="login-container">
-        <el-form :model="loginData" :rules="rules"
+    <div class="register-container">
+        <el-form :model="registerData" :rules="rules"
          status-icon
-         ref="login" 
+         ref="register" 
          label-position="left" 
          label-width="0px" 
-         class="login-page">
-            <h3 class="title">问卷系统登录</h3>
+         class="register-page">
+            <h3 class="title">注册</h3>
+            <el-form-item prop="email">
+                <el-input type="text" 
+                    v-model="registerData.email" 
+                    auto-complete="off" 
+                    placeholder="邮箱"
+                ></el-input>
+            </el-form-item>
             <el-form-item prop="username">
                 <el-input type="text" 
-                    v-model="loginData.username" 
+                    v-model="registerData.username" 
                     auto-complete="off" 
                     placeholder="用户名"
                 ></el-input>
             </el-form-item>
             <el-form-item prop="password">
                 <el-input type="password" 
-                    v-model="loginData.password" 
+                    v-model="data.password" 
                     auto-complete="off" 
                     placeholder="密码"
                 ></el-input>
             </el-form-item>
-            <el-checkbox 
-                v-model="checked"
-                class="rememberme"
-            >记住密码</el-checkbox><br/>
-            <el-link href="http://47.94.46.115/#/register" target="_blank">点击注册</el-link>
+            <el-link href="http://47.94.46.115/#/login">已有账号？点击登录</el-link>
             <br/>
             <br/>
             <el-form-item style="width:100%;">
@@ -41,11 +44,13 @@ export default {
     data(){
         return {
             logining: false,
-            loginData: {
+            registerData: {
+                email:'',
                 username: '',
                 password: '',
             },
             rules: {
+                email: [{required: true, message: '请输入邮箱', trigger: 'blur'}],
                 username: [{required: true, message: '请输入用户名', trigger: 'blur'}],
                 password: [{required: true, message: '请输入密码', trigger: 'blur'}]
             },
@@ -54,12 +59,13 @@ export default {
     },
     methods: {
         handleSubmit(event){
-            this.$refs.login.validate((valid) => {
+            this.$refs.register.validate((valid) => {
                 if(valid){
                     axios.post('/api/user/login',{
                         params:{
-                            "username": this.loginData.username,
-                            "password": this.logining.password
+                            "email": this.registerData.email,
+                            "username": this.registerData.username,
+                            "password": this.registerData.password
                         }
                     }).then(function(res){
                         if(res.state==true){
@@ -85,11 +91,11 @@ export default {
 </script>
 
 <style scoped>
-.login-container {
+.register-container {
     width: 100%;
     height: 100%;
 }
-.login-page {
+.register-page {
     -webkit-border-radius: 5px;
     border-radius: 5px;
     margin: 30px auto;
@@ -98,9 +104,5 @@ export default {
     background: #fff;
     border: 1px solid #eaeaea;
     box-shadow: 0 0 25px #cac6c6;
-}
-label.el-checkbox.rememberme {
-    margin: 0px 0px 15px;
-    text-align: left;
 }
 </style>
