@@ -61,22 +61,26 @@ export default {
         handleSubmit(event){
             this.$refs.register.validate((valid) => {
                 if(valid){
-                    axios.post('/api/user/login',{
-                        params:{
-                            "email": this.registerData.email,
-                            "username": this.registerData.username,
-                            "password": this.registerData.password
-                        }
-                    }).then(function(res){
-                        if(res.state==true){
-                            this.$cookies.set("token", res.message);
+                    //这里使用FormData用于后端springboot用@RequestParam()接受参数
+                    //否则需要用@RequestBody
+                    let param = new FormData();
+                    param.append("email",this.registerData.email)
+                    param.append("username",this.registerData.username);
+                    param.append("password",this.registerData.password);
+                    //这里axios需要使用vue对象，因此必须使用为匿名函数的箭头函数
+                    //这样this就指向了vue，就能使用$cookies
+                    axios.post('/api/user/register',param)
+                    .then((res)=>{
+                        let resData=res.data;
+                        if(resData.state==true){
+                            this.$cookies.set("token", resData.message);
                             return true;
                         }
                         else{
                             alert("账号或密码错误");
                             return false;
                         }
-                    }).catch(function (error) {
+                    }).catch((error)=> {
                         console.log(error);
                         return false;
                     });
