@@ -1,12 +1,13 @@
 <template>
     <div class="login-container">
+        <Logo/>
         <el-form :model="loginData" :rules="rules"
          status-icon
          ref="login" 
          label-position="left" 
          label-width="0px" 
          class="login-page">
-            <h3 class="title">问卷系统登录</h3>
+            <h3 class="title">My Questionnaire 登录</h3>
             <el-form-item prop="username">
                 <el-input type="text" 
                     v-model="loginData.username" 
@@ -37,6 +38,7 @@
 
 <script>
 import axios from 'axios'
+import Logo from '@/components/Logo'
 export default {
     data(){
         return {
@@ -68,6 +70,7 @@ export default {
                         let resData = res.data;
                         if(resData.state==true){
                             this.$cookies.set("token", resData.message);
+                            this.$router.push("/Home");
                             return true;
                         }
                         else{
@@ -84,12 +87,16 @@ export default {
                 }
             })
         }
-    }
+    },
+    components:{
+        Logo,
+    },
 };
 </script>
 
 <style scoped>
 .login-container {
+    text-align: center;
     width: 100%;
     height: 100%;
 }

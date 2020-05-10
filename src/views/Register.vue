@@ -1,12 +1,13 @@
 <template>
     <div class="register-container">
+        <Logo/>
         <el-form :model="registerData" :rules="rules"
          status-icon
          ref="register" 
          label-position="left" 
          label-width="0px" 
          class="register-page">
-            <h3 class="title">注册</h3>
+            <h3 class="title">My Questionnaire 注册</h3>
             <el-form-item prop="email">
                 <el-input type="text" 
                     v-model="registerData.email" 
@@ -23,7 +24,7 @@
             </el-form-item>
             <el-form-item prop="password">
                 <el-input type="password" 
-                    v-model="data.password" 
+                    v-model="registerData.password" 
                     auto-complete="off" 
                     placeholder="密码"
                 ></el-input>
@@ -32,7 +33,7 @@
             <br/>
             <br/>
             <el-form-item style="width:100%;">
-                <el-button type="primary" style="width:100%;" @click="handleSubmit" :loading="logining">登录</el-button>
+                <el-button type="primary" style="width:100%;" @click="handleSubmit" :loading="logining">注册</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -40,6 +41,7 @@
 
 <script>
 import axios from 'axios'
+import Logo from '@/components/Logo'
 export default {
     data(){
         return {
@@ -74,6 +76,8 @@ export default {
                         let resData=res.data;
                         if(resData.state==true){
                             this.$cookies.set("token", resData.message);
+                            alert("注册成功");
+                            this.$router.push("/Home");
                             return true;
                         }
                         else{
@@ -90,12 +94,16 @@ export default {
                 }
             })
         }
-    }
+    },
+    components:{
+        Logo,
+    },
 };
 </script>
 
 <style scoped>
 .register-container {
+    text-align: center;
     width: 100%;
     height: 100%;
 }

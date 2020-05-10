@@ -1,4 +1,6 @@
 <template>
+<div id="app">
+  <Logo/>
   <div class="hello">
     <h1>{{ msg }}</h1>
     <br/><br/>
@@ -30,21 +32,34 @@
       </li>
     </ul>
   </div>
+</div>
 </template>
 
 <script>
+import Logo from '@/components/Logo'
 export default {
   name: 'Index',
   data () {
     return {
       msg: 'Welcome to My Questionnaire'
     }
-  }
+  },
+  components:{
+    Logo
+  },
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 10px;
+}
 h1, h2 {
   font-weight: normal;
 }
