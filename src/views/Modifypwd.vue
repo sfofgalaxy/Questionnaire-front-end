@@ -8,13 +8,6 @@
              label-width="0px"
              class="modifyPwd-page">
       <h3 class="title">My Questionnaire 修改密码</h3>
-      <el-form-item prop="email">
-        <el-input type="text"
-                  v-model="modifyPwdData.email"
-                  auto-complete="off"
-                  placeholder="邮箱"
-        ></el-input>
-      </el-form-item>
       <el-form-item prop="username">
         <el-input type="text"
                   v-model="modifyPwdData.username"
@@ -59,19 +52,6 @@
                     callback();
                 }
             };
-            var validateEmail = (rule, value, callback) => {
-                if (value === '') {
-                    callback(new Error('请正确填写邮箱'));
-                } else {
-                    if (value !== '') {
-                        var reg=/^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
-                        if(!reg.test(value)){
-                            callback(new Error('请输入有效的邮箱'));
-                        }
-                    }
-                    callback();
-                }
-            };
             return {
                 logining: false,
                 modifyPwdData: {
@@ -81,7 +61,6 @@
                     confirmPassword:'',
                 },
                 rules: {
-                    email: [{required: true, message: '请输入邮箱', trigger: 'blur'},{validator:validateEmail,trigger: 'blur',required: true}],
                     username: [{required: true, message: '请输入用户名', trigger: 'blur'},{ min: 6, max: 20, message: '请输入6-20位字符', trigger: 'blur' }],
                     password: [{required: true, message: '请输入密码', trigger: 'blur'},{ min: 6, max: 20, message: '请输入6-20位字符', trigger: 'blur' }],
                     confirmPassword:[{required:true, message:'请确认密码', trigger:'blur'},{validator:validateConfirm, trigger: 'blur', required: true}],
