@@ -3,32 +3,39 @@
         <Logo/>
         <el-form :model="registerData" :rules="rules"
          status-icon
-         ref="register" 
-         label-position="left" 
-         label-width="0px" 
+         ref="register"
+         label-position="left"
+         label-width="0px"
          class="register-page">
             <h3 class="title">My Questionnaire 注册</h3>
             <el-form-item prop="email">
-                <el-input type="text" 
-                    v-model="registerData.email" 
-                    auto-complete="off" 
+                <el-input type="text"
+                    v-model="registerData.email"
+                    auto-complete="off"
                     placeholder="邮箱"
                 ></el-input>
             </el-form-item>
             <el-form-item prop="username">
-                <el-input type="text" 
-                    v-model="registerData.username" 
-                    auto-complete="off" 
+                <el-input type="text"
+                    v-model="registerData.username"
+                    auto-complete="off"
                     placeholder="用户名"
                 ></el-input>
             </el-form-item>
             <el-form-item prop="password">
-                <el-input type="password" 
-                    v-model="registerData.password" 
-                    auto-complete="off" 
+                <el-input type="password"
+                    v-model="registerData.password"
+                    auto-complete="off"
                     placeholder="密码"
                 ></el-input>
             </el-form-item>
+          <el-form-item prop="confirmPassword">
+            <el-input type="password"
+                      v-model="registerData.confirmPassword"
+                      auto-complete="off"
+                      placeholder="请确认密码"
+            ></el-input>
+          </el-form-item>
             <el-link href="http://47.94.46.115/#/login">已有账号？点击登录</el-link>
             <br/>
             <br/>
@@ -44,17 +51,41 @@ import axios from 'axios'
 import Logo from '@/components/Logo'
 export default {
     data(){
+        let validateConfirm= (rule, value, callback) => {
+            if (value === '') {
+                callback(new Error('请再次输入密码'));
+            } else if (value !== this.registerData.password) {
+                callback(new Error('两次输入密码不一致!'));
+            } else {
+                callback();
+            }
+        };
+        var validateEmail = (rule, value, callback) => {
+            if (value === '') {
+                callback(new Error('请正确填写邮箱'));
+            } else {
+                if (value !== '') {
+                    var reg=/^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+                    if(!reg.test(value)){
+                        callback(new Error('请输入有效的邮箱'));
+                    }
+                }
+                callback();
+            }
+        };
         return {
             logining: false,
             registerData: {
                 email:'',
                 username: '',
                 password: '',
+                confirmPassword:'',
             },
             rules: {
-                email: [{required: true, message: '请输入邮箱', trigger: 'blur'}],
-                username: [{required: true, message: '请输入用户名', trigger: 'blur'}],
-                password: [{required: true, message: '请输入密码', trigger: 'blur'}]
+                email: [{required: true, message: '请输入邮箱', trigger: 'blur'},{validator:validateEmail,trigger: 'blur',required: true}],
+                username: [{required: true, message: '请输入用户名', trigger: 'blur'},{ min: 6, max: 20, message: '请输入6-20位字符', trigger: 'blur' }],
+                password: [{required: true, message: '请输入密码', trigger: 'blur'},{ min: 6, max: 20, message: '请输入6-20位字符', trigger: 'blur' }],
+                confirmPassword:[{required:true, message:'请确认密码', trigger:'blur'},{validator:validateConfirm, trigger: 'blur', required: true}],
             },
             checked: false
         }
@@ -76,12 +107,13 @@ export default {
                         let resData=res.data;
                         if(resData.state==true){
                             this.$cookies.set("token", resData.message);
+                            this.$cookies.set("username",resData.username);
                             alert("注册成功");
                             this.$router.push("/Home");
                             return true;
                         }
                         else{
-                            alert("账号或密码错误");
+                            alert(resData.message);
                             return false;
                         }
                     }).catch((error)=> {

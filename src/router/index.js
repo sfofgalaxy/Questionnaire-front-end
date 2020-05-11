@@ -5,6 +5,7 @@ import Login from '@/views/Login'
 import Register from '@/views/Register'
 import Questionnaire from '@/views/Questionnaire'
 import Home from '@/views/Home'
+import Modifypwd from "@/views/Modifypwd";
 
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ export default new Router({
       path: '/questionnaire',
       name: 'Questionnaire',
       component: Questionnaire
+    },
+    {
+      path: '/modifypwd',
+      name: 'Modifypwd',
+      component: Modifypwd
     },
   ]
 })

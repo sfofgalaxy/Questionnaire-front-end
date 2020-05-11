@@ -3,26 +3,26 @@
         <Logo/>
         <el-form :model="loginData" :rules="rules"
          status-icon
-         ref="login" 
-         label-position="left" 
-         label-width="0px" 
+         ref="login"
+         label-position="left"
+         label-width="0px"
          class="login-page">
             <h3 class="title">My Questionnaire 登录</h3>
             <el-form-item prop="username">
-                <el-input type="text" 
-                    v-model="loginData.username" 
-                    auto-complete="off" 
+                <el-input type="text"
+                    v-model="loginData.username"
+                    auto-complete="off"
                     placeholder="用户名"
                 ></el-input>
             </el-form-item>
             <el-form-item prop="password">
-                <el-input type="password" 
-                    v-model="loginData.password" 
-                    auto-complete="off" 
+                <el-input type="password"
+                    v-model="loginData.password"
+                    auto-complete="off"
                     placeholder="密码"
                 ></el-input>
             </el-form-item>
-            <el-checkbox 
+            <el-checkbox
                 v-model="checked"
                 class="rememberme"
             >记住密码</el-checkbox><br/>
@@ -48,8 +48,8 @@ export default {
                 password: '',
             },
             rules: {
-                username: [{required: true, message: '请输入用户名', trigger: 'blur'}],
-                password: [{required: true, message: '请输入密码', trigger: 'blur'}]
+                username: [{required: true, message: '请输入用户名', trigger: 'blur'},{ min: 6, max: 20, message: '请输入6-20位字符', trigger: 'blur' }],
+                password: [{required: true, message: '请输入密码', trigger: 'blur'},{ min: 6, max: 20, message: '请输入6-20位字符', trigger: 'blur' }]
             },
             checked: false
         }
@@ -70,11 +70,12 @@ export default {
                         let resData = res.data;
                         if(resData.state==true){
                             this.$cookies.set("token", resData.message);
+                            this.$cookies.set("username",resData.username);
                             this.$router.push("/Home");
                             return true;
                         }
                         else{
-                            alert("账号或密码错误");
+                            alert(resData.message);
                             return false;
                         }
                     }).catch((error)=>{
