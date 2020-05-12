@@ -1,6 +1,12 @@
 <template>
     <div class="login-container">
-        <Logo/>
+      <el-alert v-if="logining"
+        :title="loginMessage"
+        :type="success"
+        center
+        show-icon>
+      </el-alert>
+      <Logo/>
         <el-form :model="loginData" :rules="rules"
          status-icon
          ref="login"
@@ -51,7 +57,9 @@ export default {
                 username: [{required: true, message: '请输入用户名', trigger: 'blur'},{ min: 6, max: 20, message: '请输入6-20位字符', trigger: 'blur' }],
                 password: [{required: true, message: '请输入密码', trigger: 'blur'},{ min: 6, max: 20, message: '请输入6-20位字符', trigger: 'blur' }]
             },
-            checked: false
+            checked: false,
+            success: "",
+            loginMessage:""
         }
     },
     methods: {
@@ -68,22 +76,29 @@ export default {
                     axios.post('/api/user/login',param)
                     .then((res)=>{
                         let resData = res.data;
+                        this.loginMessage=resData.message;
+                        this.logining=true;
                         if(resData.state==true){
+                            this.success="success";
                             this.$cookies.set("token", resData.message);
                             this.$cookies.set("username",resData.username);
                             this.$router.push("/Home");
                             return true;
                         }
                         else{
-                            alert(resData.message);
+                            this.success="error";
                             return false;
                         }
                     }).catch((error)=>{
-                        console.log(error);
+                        this.logining=true;
+                        this.success="error";
+                        this.loginMessage= error;
                         return false;
                     });
                 }else{
-                    console.log('提交出错');
+                    this.success="error";
+                    this.logining=true;
+                    this.loginMessage='提交出错';
                     return false;
                 }
             })
@@ -91,7 +106,7 @@ export default {
     },
     components:{
         Logo,
-    },
+    }
 };
 </script>
 

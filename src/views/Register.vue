@@ -1,5 +1,11 @@
 <template>
     <div class="register-container">
+      <el-alert v-if="logining"
+                :title="loginMessage"
+                :type="success"
+                center
+                show-icon>
+      </el-alert>
         <Logo/>
         <el-form :model="registerData" :rules="rules"
          status-icon
@@ -87,7 +93,9 @@ export default {
                 password: [{required: true, message: '请输入密码', trigger: 'blur'},{ min: 6, max: 20, message: '请输入6-20位字符', trigger: 'blur' }],
                 confirmPassword:[{required:true, message:'请确认密码', trigger:'blur'},{validator:validateConfirm, trigger: 'blur', required: true}],
             },
-            checked: false
+            checked: false,
+            loginMessage:"",
+            success:""
         }
     },
     methods: {
@@ -105,23 +113,29 @@ export default {
                     axios.post('/api/user/register',param)
                     .then((res)=>{
                         let resData=res.data;
+                        this.loginMessage=resData.message;
+                        this.logining=true;
                         if(resData.state==true){
+                            this.success="success";
                             this.$cookies.set("token", resData.message);
                             this.$cookies.set("username",resData.username);
-                            alert("注册成功");
                             this.$router.push("/Home");
                             return true;
                         }
                         else{
-                            alert(resData.message);
+                            this.success="error";
                             return false;
                         }
                     }).catch((error)=> {
-                        console.log(error);
+                        this.logining=true;
+                        this.success="error";
+                        this.loginMessage= error;
                         return false;
                     });
                 }else{
-                    console.log('提交出错');
+                    this.success="error";
+                    this.logining=true;
+                    this.loginMessage='提交出错';
                     return false;
                 }
             })
