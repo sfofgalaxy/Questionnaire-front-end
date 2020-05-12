@@ -3,7 +3,7 @@
     <el-col :span="12" style="width: 200px">
       <img src="@/assets/logo.png" style="width: 100%" />
       <el-menu
-        :default-active="select"
+        default-active="1-1"
         class="el-menu-vertical-demo"
         @open="handleOpen"
         @close="handleClose"
@@ -56,11 +56,6 @@
     export default {
         name: "Navigator.vue",
         methods: {
-            handleSelect(key,keyPath){
-                if(key==="1-1")this.select="1-1";
-                else if(key==="2")this.select="2";
-                else if(key==="3")this.select="3";
-            },
             handleOpen(key, keyPath) {
             },
             handleClose(key, keyPath) {
@@ -76,7 +71,6 @@
         data(){
             return {
                 disabled: true,
-                select: "1-1",
             }
         },
         mounted() {
