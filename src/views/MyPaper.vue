@@ -28,5 +28,36 @@
 </script>
 
 <style scoped>
+  .el-header, .el-footer {
+    color: rgba(0,0,0,.65);
+    text-align: center;
+    padding: 24px 50px;
+    border: 5px;
+    font-size: 12px;
+  }
 
+  .el-aside {
+    color: #333;
+    text-align: center;
+  }
+
+  .el-main {
+    color: #333;
+    text-align: center;
+    border-top: 1px solid #f5f6f7;
+    border-bottom: 1px solid #f5f6f7;
+  }
+
+  body > .el-container {
+    margin-bottom: 40px;
+  }
+
+  .el-container:nth-child(5) .el-aside,
+  .el-container:nth-child(6) .el-aside {
+    line-height: 260px;
+  }
+
+  .el-container:nth-child(7) .el-aside {
+    line-height: 320px;
+  }
 </style>

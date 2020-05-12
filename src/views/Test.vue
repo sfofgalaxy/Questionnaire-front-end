@@ -1,0 +1,34 @@
+<template>
+  <el-button @click="test">
+    测试post
+  </el-button>
+</template>
+
+<script>
+    export default {
+        name: "Test.vue",
+        methods: {
+            test: function () {
+                let param = new FormData();
+                let data = [
+                    {questionid:1,paperid: 1, parentid:1, type: 1},
+                    {questionid:2,paperid: 1, parentid:1, type: 1},
+                    {questionid:3,paperid: 1, parentid:1, type: 1},
+                    {questionid:4,paperid: 1, parentid:1, type: 1},
+                ];
+                param.append("question", data);
+                axios.post('/api/paper/test', param)
+                    .then((res) => {
+                        console.log(res);
+                    }).catch((error) => {
+                    console.log(error);
+                    return false;
+                });
+            }
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>

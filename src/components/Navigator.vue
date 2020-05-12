@@ -25,26 +25,26 @@
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>
-        <el-menu-item index="2" :disabled="disabled">
-          <el-link :disabled="disabled" href="http://47.94.46.115/#/make" :underline="false">
+        <el-link :disabled="disabled" href="http://47.94.46.115/#/make" :underline="false">
+          <el-menu-item index="2" :disabled="disabled">
               <i class="el-icon-document-checked"></i>
               <span>发布问卷</span>
-          </el-link>
-        </el-menu-item>
+          </el-menu-item>
+        </el-link>
+        <el-link :disabled="disabled" href="http://47.94.46.115/#/mypaper" :underline="false">
             <el-menu-item index="3" :disabled="disabled">
-              <el-link :disabled="disabled" href="http://47.94.46.115/#/mypaper" :underline="false">
                 <i class="el-icon-document"></i>
                 <span>我的问卷</span>
-              </el-link>
             </el-menu-item>
+        </el-link>
         <el-submenu index="4">
           <template slot="title">
             <i class="el-icon-user"></i>
             <span slot="title">个人中心</span>
           </template>
-          <el-menu-item index="4-1" v-if="disabled"><el-link :underline="false" href="http://47.94.46.115/#/login">登录</el-link></el-menu-item>
-          <el-menu-item index="4-1" v-if="!disabled"><el-link :underline="false" href="http://47.94.46.115/#/modifypwd">修改密码</el-link></el-menu-item>
-          <el-menu-item index="4-2" v-if="disabled"><el-link  :underline="false" href="http://47.94.46.115/#/register">注册</el-link></el-menu-item>
+          <el-link :underline="false" href="http://47.94.46.115/#/login"><el-menu-item index="4-1" v-if="disabled">登录</el-menu-item></el-link>
+          <el-link :underline="false" href="http://47.94.46.115/#/modifypwd"><el-menu-item index="4-1" v-if="!disabled">修改密码</el-menu-item></el-link>
+          <el-link  :underline="false" href="http://47.94.46.115/#/register"><el-menu-item index="4-2" v-if="disabled">注册</el-menu-item></el-link>
           <el-menu-item index="4-3" @click="logout"  :disabled="disabled">注销</el-menu-item>
         </el-submenu>
       </el-menu>

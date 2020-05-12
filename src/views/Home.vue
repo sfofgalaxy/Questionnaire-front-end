@@ -38,6 +38,7 @@
     color: rgba(0,0,0,.65);
     text-align: center;
     padding: 24px 50px;
+     border: 5px;
     font-size: 12px;
   }
 

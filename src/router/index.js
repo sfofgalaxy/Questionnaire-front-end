@@ -8,6 +8,7 @@ import Home from '@/views/Home'
 import Modifypwd from "@/views/Modifypwd";
 import Make from "@/views/Make";
 import MyPaper from "@/views/MyPaper";
+import Test from "../views/Test";
 
 Vue.use(Router)
 
@@ -52,6 +53,11 @@ export default new Router({
       path: '/mypaper',
       name: 'MyPaper',
       component: MyPaper
+    },
+    {
+      path: '/test',
+      name: 'Test',
+      component: Test
     },
   ]
 })
