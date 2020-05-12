@@ -12,11 +12,11 @@
             test: function () {
                 let param = new FormData();
                 let data = [
-                    {questionid:1,paperid: 1, parentid:1, type: 1},
-                    {questionid:2,paperid: 1, parentid:1, type: 1},
-                    {questionid:3,paperid: 1, parentid:1, type: 1},
-                    {questionid:4,paperid: 1, parentid:1, type: 1},
-                ];
+                  [1,1,1,1],
+                  [2,1,1,1],
+                  [3,1,1,1],
+                  [4,1,1,1]
+            ];
                 param.append("question", data);
                 axios.post('/api/paper/test', param)
                     .then((res) => {
