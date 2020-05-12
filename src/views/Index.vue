@@ -1,10 +1,13 @@
 <template>
 <div id="app">
-  <Logo/>
+  <a href="http://47.94.46.115/#/home"><Logo/></a>
   <div class="hello">
     <h1>{{ msg }}</h1>
     <br/><br/>
     <h3>Essential Links</h3>
+    <el-link href="http://47.94.46.115/#/home"><h2>Home Page</h2></el-link><br/>
+    <el-button size="mini"><el-link href="../../static/设计文档.pdf" download="设计文档.pdf">设计文档下载</el-link></el-button>
+    <el-button size="mini"><el-link href="../../static/实验报告.pdf" download="实验报告.pdf">实验报告下载</el-link></el-button>
     <ul>
       <li>
         <a

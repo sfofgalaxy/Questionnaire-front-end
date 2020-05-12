@@ -1,10 +1,16 @@
 <template>
-
+<Logo/>
 </template>
 
 <script>
+    import Navigator from '@/components/Navigator';
+    import Logo from '@/components/Logo';
     export default {
-        name: "Make.vue"
+        components:{
+            Navigator,
+            Logo
+        },
+        name:"Make.vue",
     }
 </script>
 

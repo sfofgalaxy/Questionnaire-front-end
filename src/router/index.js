@@ -6,6 +6,8 @@ import Register from '@/views/Register'
 import Questionnaire from '@/views/Questionnaire'
 import Home from '@/views/Home'
 import Modifypwd from "@/views/Modifypwd";
+import Make from "@/views/Make";
+import MyPaper from "@/views/MyPaper";
 
 Vue.use(Router)
 
@@ -40,6 +42,16 @@ export default new Router({
       path: '/modifypwd',
       name: 'Modifypwd',
       component: Modifypwd
+    },
+    {
+      path: '/make',
+      name: 'Make',
+      component: Make
+    },
+    {
+      path: '/mypaper',
+      name: 'MyPaper',
+      component: MyPaper
     },
   ]
 })

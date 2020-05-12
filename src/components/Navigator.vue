@@ -3,10 +3,11 @@
     <el-col :span="12" style="width: 200px">
       <img src="@/assets/logo.png" style="width: 100%" />
       <el-menu
-        default-active="1-1"
+        :default-active="select"
         class="el-menu-vertical-demo"
         @open="handleOpen"
-        @close="handleClose">
+        @close="handleClose"
+        @select="handleSelect">
         <el-submenu index="1">
           <template slot="title">
             <i class="el-icon-house"></i>
@@ -14,35 +15,37 @@
           </template>
           <el-menu-item-group>
             <el-menu-item index="1-1">
-              Index
+              <el-link href="http://47.94.46.115/#/home" :underline="false">Welcome</el-link>
             </el-menu-item>
             <el-menu-item index="1-2">
-             <el-link href="http://47.94.46.115/#/">首页</el-link>
+             <el-link href="http://47.94.46.115/#/" :underline="false">Index</el-link>
             </el-menu-item>
             <el-menu-item index="1-2">
-              <el-link href="http://47.94.46.115/#/" target="_blank">接口</el-link>
+              <el-link href="http://47.94.46.115:8080/swagger-ui.html" :underline="false" target="_blank">接口文档</el-link>
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>
-        <el-submenu index="2" :disabled="disabled">
-          <template slot="title">
-            <i class="el-icon-document-checked"></i>
-            <span>问卷中心</span>
-          </template>
-          <el-menu-item-group>
-<!--            <template slot="title">分组一</template>-->
-            <el-menu-item index="2-1">发布问卷</el-menu-item>
-            <el-menu-item index="2-2">我的问卷</el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
+        <el-menu-item index="2" :disabled="disabled">
+          <el-link :disabled="disabled" href="http://47.94.46.115/#/make" :underline="false">
+              <i class="el-icon-document-checked"></i>
+              <span>发布问卷</span>
+          </el-link>
+        </el-menu-item>
+            <el-menu-item index="3" :disabled="disabled">
+              <el-link :disabled="disabled" href="http://47.94.46.115/#/mypaper" :underline="false">
+                <i class="el-icon-document"></i>
+                <span>我的问卷</span>
+              </el-link>
+            </el-menu-item>
         <el-submenu index="4">
           <template slot="title">
             <i class="el-icon-user"></i>
             <span slot="title">个人中心</span>
           </template>
-          <el-menu-item index="4-1"><el-link href="http://47.94.46.115/#/login">登录</el-link></el-menu-item>
-          <el-menu-item index="4-2"><el-link href="http://47.94.46.115/#/register">注册</el-link></el-menu-item>
-          <el-menu-item index="4-3" @click="remove">注销</el-menu-item>
+          <el-menu-item index="4-1" v-if="disabled"><el-link :underline="false" href="http://47.94.46.115/#/login">登录</el-link></el-menu-item>
+          <el-menu-item index="4-1" v-if="!disabled"><el-link :underline="false" href="http://47.94.46.115/#/modifypwd">修改密码</el-link></el-menu-item>
+          <el-menu-item index="4-2" v-if="disabled"><el-link  :underline="false" href="http://47.94.46.115/#/register">注册</el-link></el-menu-item>
+          <el-menu-item index="4-3" @click="logout"  :disabled="disabled">注销</el-menu-item>
         </el-submenu>
       </el-menu>
     </el-col>
@@ -53,23 +56,27 @@
     export default {
         name: "Navigator.vue",
         methods: {
+            handleSelect(key,keyPath){
+                if(key==="1-1")this.select="1-1";
+                else if(key==="2")this.select="2";
+                else if(key==="3")this.select="3";
+            },
             handleOpen(key, keyPath) {
-                console.log(key, keyPath);
             },
             handleClose(key, keyPath) {
-                console.log(key, keyPath);
             },
-            remove:function () {
+            logout:function () {
                 this.$cookies.remove("token");
                 this.$cookies.remove("username");
                 this.disabled=true;
                 alert("注销成功");
-                this.$router.push("/");
+                this.$router.push("/login");
             }
         },
         data(){
             return {
-                disabled: true
+                disabled: true,
+                select: "1-1",
             }
         },
         mounted() {

@@ -4,13 +4,20 @@
         <Navigator/>
       </el-aside>
       <el-container>
+        <el-header style="font-size: 18px;color: #303133;">
+          问卷调查网站
+        </el-header>
         <el-main>
-          <h2>Welcome to My Questionnaire</h2>
-<!--          <div class="btns">-->
-<!--            <el-link target="_blank" href="@/assets/设计文档.pdf" :underline="false" style="margin-left:15px">-->
-<!--              <el-button size="mini" type="warning">设计文档</el-button>-->
-<!--            </el-link>-->
-<!--          </div>-->
+          <div>
+            <Logo/>
+            <h2>Welcome to My Questionnaire</h2>
+            <br />
+            <div class="btns">
+              <el-button size="mini"><el-link href="../../static/设计文档.pdf" download="设计文档.pdf"><i class="el-icon-download"></i>设计文档下载</el-link></el-button>
+              <el-button size="mini"><el-link href="../../static/实验报告.pdf" download="实验报告.pdf"><i class="el-icon-download"></i>实验报告下载</el-link></el-button>
+            </div>
+            <br /><br /><br />
+          </div>
         </el-main>
         <el-footer>Design ©2020 by 彭子帆 3170105860@zju.edu.cn</el-footer>
       </el-container>
@@ -18,14 +25,16 @@
 </template>
 <script>
     import Navigator from '@/components/Navigator';
+    import Logo from '@/components/Logo';
     export default {
         components:{
-            Navigator
-        }
+            Navigator,
+            Logo
+        },
     }
 </script>
 <style>
-   .el-footer {
+   .el-header, .el-footer {
     color: rgba(0,0,0,.65);
     text-align: center;
     padding: 24px 50px;
@@ -38,10 +47,10 @@
   }
 
   .el-main {
-    background-color: #E9EEF3;
     color: #333;
     text-align: center;
-    line-height: 500px;
+    border-top: 1px solid #f5f6f7;
+    border-bottom: 1px solid #f5f6f7;
   }
 
   body > .el-container {
