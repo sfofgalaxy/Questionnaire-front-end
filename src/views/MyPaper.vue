@@ -23,7 +23,29 @@
             Navigator,
             Logo
         },
-        name: "MyPaper.vue"
+        name: "MyPaper.vue",
+        methods: {
+            query(){
+                let author = "me";
+                let token = this.$cookies.get("token");
+                axios.get('/api/paper/myquestionnaire',{
+                    params:{
+                        username: author
+                    },
+                    headers:{
+                        token: token
+                    }
+                }).then((res) => {
+                    let myPapers = res.data;
+                    for(let i =0;i<myPapers.length;i++){
+                      //do something
+                    }
+                }).catch((error) => {
+                    console.log(error);
+                    return false;
+                });
+            }
+        }
     }
 </script>
 

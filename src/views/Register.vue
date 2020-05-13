@@ -115,7 +115,7 @@ export default {
                         let resData=res.data;
                         this.loginMessage=resData.message;
                         this.logining=true;
-                        if(resData.state==true){
+                        if(resData.state===true){
                             this.success="success";
                             this.$cookies.set("token", resData.message);
                             this.$cookies.set("username",resData.username);
