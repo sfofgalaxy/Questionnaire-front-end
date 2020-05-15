@@ -28,10 +28,10 @@
             post() {
                 let param = new FormData();
                 let question = [
-                    [0,0],//分别代表parentID(0代表无parentID)和type
-                    [0,1],
-                    [0,2],
-                    [1,2],
+                    [0,1,0],//分别代表parentID(0代表无parentID)、parentID中的第几个option，type
+                    [0,0,1],
+                    [0,0,2],
+                    [1,0,2],
                 ];
                 let option = [
                     [1,"第一个问题的选项1"],//第一个参数对应第几个问题（非数据库中第几个问题）

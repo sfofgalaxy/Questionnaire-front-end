@@ -11,7 +11,7 @@
         methods: {
             test: function () {
                 let author = "me";
-                axios.get('/api/paper/test',{
+                axios.get('/api/test',{
                     params:{
                         username: author
                     },
