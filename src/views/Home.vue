@@ -14,6 +14,8 @@
             <h2>Welcome to My Questionnaire</h2>
             <br />
             <div class="btns">
+              <el-button size="mini"><el-link href="https://github.com/sfofgalaxy/Questionnaire-front-end/archive/master.zip" download="frontend.zip"><i class="el-icon-download"></i>前端代码下载</el-link></el-button>
+              <el-button size="mini"><el-link href="https://github.com/sfofgalaxy/Questionnaire-back-end/archive/master.zip" download="backend.zip"><i class="el-icon-download"></i>后端代码下载</el-link></el-button>
               <el-button size="mini"><el-link href="../../static/设计文档.pdf" download="设计文档.pdf"><i class="el-icon-download"></i>设计文档下载</el-link></el-button>
               <el-button size="mini"><el-link href="../../static/实验报告.pdf" download="实验报告.pdf"><i class="el-icon-download"></i>实验报告下载</el-link></el-button>
             </div>

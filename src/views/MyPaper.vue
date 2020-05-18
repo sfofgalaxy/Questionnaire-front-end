@@ -45,7 +45,7 @@
               label="操作"
               width="100">
               <template slot-scope="scope">
-                <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
+                <el-button @click="handleCheck(scope.row)" type="text" size="small">查看结果</el-button>
                 <el-button @click="handleDelete(scope.row)" type="text" size="small">删除</el-button>
                 <el-button v-if="this.tableData[scope.row].open" @click="handleClose(scope.row)" type="text" size="small">关闭</el-button>
                 <el-button v-else @click="handleOpen(scope.row)" type="text" size="small">开启</el-button>
@@ -66,24 +66,77 @@
         components:{
             Navigator
         },
-        name: "MyPaper.vue",
+        name: "MyPaper",
         data(){
           return{
             tableData:[]
           }
         },
         methods: {
-            handleClick(row) {
-                console.log(row);
+            handleCheck(row) {
+                this.$router.push({name:'Questionnaire',params: {paperid:this.tableData[row].paperid}});
             },
             handleDelete(row){
-                console.log(row);
+                let username = this.$cookies.get("username");
+                let token = this.$cookies.get("token");
+                axios.delete('/api/paper/delete/'+this.tableData[row].paperid,{
+                    params:{
+                        username: username
+                    },
+                    headers:{
+                        token: token
+                    }
+                })
+                    .then((res)=>{
+                     let resData =  res.data;
+                     alert(resData.message);
+                     if(resData.state)this.$router.push('/mypaper');
+                    })
+                    .catch((error)=>{
+                       alert(error);
+                    });
             },
             handleOpen(row){
-
+                let username = this.$cookies.get("username");
+                let token = this.$cookies.get("token");
+                axios.put('/api/paper/open/'+this.tableData[row].paperid,{
+                        params:{
+                            username: username
+                        },
+                        headers:{
+                            token: token
+                        }
+                    }
+                )
+                    .then((res)=>{
+                        let resData = res.data;
+                        alert(resData.message);
+                        if(resData.state)this.$router.push('/mypaper');
+                    })
+                    .catch((error)=>{
+                        alert(error);
+                    });
             },
             handleClose(row){
-
+                let username = this.$cookies.get("username");
+                let token = this.$cookies.get("token");
+                axios.put('/api/paper/close/'+this.tableData[row].paperid,{
+                        params:{
+                            username: username
+                        },
+                        headers:{
+                            token: token
+                        }
+                    }
+                )
+                    .then((res)=>{
+                        let resData = res.data;
+                        alert(resData.message);
+                        if(resData.state)this.$router.push('/mypaper');
+                    })
+                    .catch((error)=>{
+                        alert(error);
+                    });
             }
         },
         mounted() {

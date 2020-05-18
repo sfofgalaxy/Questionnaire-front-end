@@ -25,7 +25,7 @@
             Navigator,
             Logo
         },
-        name:"Make.vue",
+        name:"Make",
         methods: {
             post() {
                 let param = new FormData();
