@@ -7,9 +7,54 @@
       <el-header style="font-size: 18px;color: #303133;">
         问卷调查网站
       </el-header>
+      <el-divider></el-divider>
       <el-main>
-        我的问卷网站
+        <div class="infinite-list-wrapper" style="overflow:auto">
+          <el-table
+            :data="tableData"
+            border
+            style="width: 100%">
+            <el-table-column
+              fixed
+              prop="title"
+              label="问卷标题"
+              width="150">
+            </el-table-column>
+            <el-table-column
+              prop="mode"
+              label="模式"
+              width="120">
+            </el-table-column>
+            <el-table-column
+              prop="fillnumber"
+              label="可填写的次数"
+              width="120">
+            </el-table-column>
+            <el-table-column
+              prop="open"
+              label="状态"
+              width="120">
+            </el-table-column>
+            <el-table-column
+              prop="description"
+              label="描述"
+              width="300">
+            </el-table-column>
+            <el-table-column
+              fixed="right"
+              label="操作"
+              width="100">
+              <template slot-scope="scope">
+                <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
+                <el-button @click="handleDelete(scope.row)" type="text" size="small">删除</el-button>
+                <el-button v-if="this.tableData[scope.row].open" @click="handleClose(scope.row)" type="text" size="small">关闭</el-button>
+                <el-button v-else @click="handleOpen(scope.row)" type="text" size="small">开启</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
       </el-main>
+      <el-divider></el-divider>
       <el-footer>Design ©2020 by 彭子帆 3170105860@zju.edu.cn</el-footer>
     </el-container>
   </el-container>
@@ -17,34 +62,50 @@
 
 <script>
     import Navigator from '@/components/Navigator';
-    import Logo from '@/components/Logo';
     export default {
         components:{
-            Navigator,
-            Logo
+            Navigator
         },
         name: "MyPaper.vue",
+        data(){
+          return{
+            tableData:[]
+          }
+        },
         methods: {
-            query(){
-                let author = "me";
-                let token = this.$cookies.get("token");
-                axios.get('/api/paper/myquestionnaire',{
-                    params:{
-                        username: author
-                    },
-                    headers:{
-                        token: token
-                    }
-                }).then((res) => {
-                    let myPapers = res.data;
-                    for(let i =0;i<myPapers.length;i++){
-                      //do something
-                    }
-                }).catch((error) => {
-                    console.log(error);
-                    return false;
-                });
+            handleClick(row) {
+                console.log(row);
+            },
+            handleDelete(row){
+                console.log(row);
+            },
+            handleOpen(row){
+
+            },
+            handleClose(row){
+
             }
+        },
+        mounted() {
+            let username = this.$cookies.get("username");
+            let token = this.$cookies.get("token");
+            axios.get('/api/paper/myquestionnaire',{
+                params:{
+                    username: username
+                },
+                headers:{
+                    token: token
+                }
+            }).then((res) => {
+                let myPapers = res.data;
+                this.tableData=myPapers;
+                for(let i =0;i<myPapers.length;i++){
+                    //do something
+                }
+            }).catch((error) => {
+                console.log(error);
+                return false;
+            });
         }
     }
 </script>
@@ -66,8 +127,6 @@
   .el-main {
     color: #333;
     text-align: center;
-    border-top: 1px solid #f5f6f7;
-    border-bottom: 1px solid #f5f6f7;
   }
 
   body > .el-container {

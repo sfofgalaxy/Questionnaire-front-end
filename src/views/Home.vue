@@ -7,6 +7,7 @@
         <el-header style="font-size: 18px;color: #303133;">
           问卷调查网站
         </el-header>
+        <el-divider></el-divider>
         <el-main>
           <div>
             <Logo/>
@@ -16,9 +17,10 @@
               <el-button size="mini"><el-link href="../../static/设计文档.pdf" download="设计文档.pdf"><i class="el-icon-download"></i>设计文档下载</el-link></el-button>
               <el-button size="mini"><el-link href="../../static/实验报告.pdf" download="实验报告.pdf"><i class="el-icon-download"></i>实验报告下载</el-link></el-button>
             </div>
-            <br /><br /><br />
+            <br /><br />
           </div>
         </el-main>
+        <el-divider></el-divider>
         <el-footer>Design ©2020 by 彭子帆 3170105860@zju.edu.cn</el-footer>
       </el-container>
     </el-container>
@@ -50,8 +52,6 @@
   .el-main {
     color: #333;
     text-align: center;
-    border-top: 1px solid #f5f6f7;
-    border-bottom: 1px solid #f5f6f7;
   }
 
   body > .el-container {
