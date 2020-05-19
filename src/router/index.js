@@ -6,9 +6,9 @@ import Register from '@/views/Register'
 import Questionnaire from '@/views/Questionnaire'
 import Home from '@/views/Home'
 import Modifypwd from "@/views/Modifypwd";
-import Make from "@/views/Make";
 import MyPaper from "@/views/MyPaper";
 import Test from "../views/Test";
+import Post from "../views/Post";
 
 Vue.use(Router)
 
@@ -45,9 +45,9 @@ export default new Router({
       component: Modifypwd
     },
     {
-      path: '/make',
-      name: 'Make',
-      component: Make
+      path: '/post',
+      name: 'Post',
+      component: Post
     },
     {
       path: '/mypaper',

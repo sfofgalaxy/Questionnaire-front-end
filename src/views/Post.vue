@@ -25,7 +25,7 @@
             Navigator,
             Logo
         },
-        name:"Make",
+        name:"Post",
         methods: {
             post() {
                 let param = new FormData();

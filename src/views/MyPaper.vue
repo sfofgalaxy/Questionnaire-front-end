@@ -51,6 +51,11 @@
                 <el-button v-else @click="handleOpen(scope.row)" type="text" size="small">开启</el-button>
               </template>
             </el-table-column>
+            <el-pagination
+              background
+              layout="prev, pager, next"
+              :total="total">
+            </el-pagination>
           </el-table>
         </div>
       </el-main>
@@ -69,12 +74,13 @@
         name: "MyPaper",
         data(){
           return{
-            tableData:[]
+            tableData:[],
+            total:0
           }
         },
         methods: {
             handleCheck(row) {
-                this.$router.push({name:'Questionnaire',params: {paperid:this.tableData[row].paperid}});
+                this.$router.push({name:'Result',params: {paperid:this.tableData[row].paperid}});
             },
             handleDelete(row){
                 let username = this.$cookies.get("username");
@@ -152,9 +158,7 @@
             }).then((res) => {
                 let myPapers = res.data;
                 this.tableData=myPapers;
-                for(let i =0;i<myPapers.length;i++){
-                    //do something
-                }
+                this.total = this.tableData.length
             }).catch((error) => {
                 console.log(error);
                 return false;
