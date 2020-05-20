@@ -9,7 +9,6 @@
       </el-header>
       <el-divider></el-divider>
       <el-main>
-        <div class="infinite-list-wrapper" style="overflow:auto">
           <el-table
             :data="tableData"
             border
@@ -57,7 +56,6 @@
               :total="total">
             </el-pagination>
           </el-table>
-        </div>
       </el-main>
       <el-divider></el-divider>
       <el-footer>Design ©2020 by 彭子帆 3170105860@zju.edu.cn</el-footer>

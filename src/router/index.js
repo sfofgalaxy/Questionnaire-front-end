@@ -10,7 +10,7 @@ import MyPaper from "@/views/MyPaper";
 import Test from "../views/Test";
 import Post from "../views/Post";
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   routes: [

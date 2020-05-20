@@ -4,11 +4,35 @@
       <Navigator/>
     </el-aside>
     <el-container>
-  <el-pagination
-    small
-    layout="prev, pager, next"
-    :total="50">
-  </el-pagination>
+      <el-header style="font-size: 18px;color: #303133;">
+        问卷调查网站
+      </el-header>
+      <el-divider></el-divider>
+      <el-main>
+        <el-table
+          :data="tableData"
+          stripe
+          style="width: 100%">
+          <el-table-column
+            prop="date"
+            label="日期"
+            width="180">
+          </el-table-column>
+          <el-table-column
+            prop="name"
+            label="姓名"
+            width="180">
+          </el-table-column>
+          <el-table-column
+            prop="address"
+            label="地址">
+          </el-table-column>
+        </el-table>
+      </el-main>
+      <el-divider></el-divider>
+      <el-footer>Design ©2020 by 彭子帆 3170105860@zju.edu.cn</el-footer>
+    </el-container>
+  </el-container>
 </template>
 
 <script>
@@ -24,7 +48,9 @@
         },
         data(){
             return{
-                questionList:[]
+                questionList:[],
+                total:0,
+                tableData:[]
             }
         },
         mounted() {
