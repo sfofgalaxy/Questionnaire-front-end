@@ -6,8 +6,7 @@
         default-active="1-1"
         class="el-menu-vertical-demo"
         @open="handleOpen"
-        @close="handleClose"
-        @select="handleSelect">
+        @close="handleClose">
         <el-submenu index="1">
           <template slot="title">
             <i class="el-icon-house"></i>

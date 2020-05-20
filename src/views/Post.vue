@@ -16,9 +16,6 @@
           <el-form-item label="问卷描述">
             <el-input maxlength="500" type="textarea" v-model="form.description"></el-input>
           </el-form-item>
-          <el-form-item label="是否立即允许作答">
-            <el-switch v-model="form.open"></el-switch>
-          </el-form-item>
           <el-form-item label="问卷类型">
             <el-radio-group v-model="form.mode">
               <el-radio label="0" name="mode" aria-checked="true" border>仅允许登录作答</el-radio>
@@ -27,7 +24,13 @@
             </el-radio-group>&nbsp;&nbsp;
             <el-input-number v-model="form.fillNumber" v-show="form.mode!=='0'" ></el-input-number>
           </el-form-item>
-          <el-form-item style="font-weight: bold" v-for="questionID in questionNum" :label="'问题'+questionID">
+          <el-form-item label="问卷发布后即可开始作答">
+            <el-switch v-model="form.open"></el-switch>
+          </el-form-item>
+          <el-form-item style="font-weight: bold"
+                        v-for="questionID in questionNum"
+                        :label="'问题'+questionID"
+                        :ref="'question'+questionID">
             <br/>
             <el-divider></el-divider>
             <Question />
@@ -72,7 +75,13 @@
               this.questionNum++;
             },
             onSubmit() {
+                let i;
                 let param = new FormData();
+                let num = this.questionNum;
+                // for(i = 0; i<num; i++){
+                //
+                //     this.$refs.('question'+i).
+                // }
                 let question = [
                     ["content1",0],//分别代表content,type
                     ["content2",1],

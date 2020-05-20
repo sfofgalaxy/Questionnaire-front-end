@@ -5,7 +5,7 @@
     </el-form-item>
     <br/>
     <el-form-item align="left" label="题目类型">
-      <el-radio-group v-model="form.type">
+      <el-radio-group @change="handleChange" v-model="form.type">
         <el-radio label="0" name="type" border>单选</el-radio>
         <el-radio label="1" name="type" border>多选</el-radio>
         <el-radio label="2" name="type" border>文本问答</el-radio>
@@ -15,6 +15,14 @@
         <el-radio label="5" name="type" border>评分</el-radio>
         <el-radio label="6" name="type" border>获取地理位置</el-radio>
       </el-radio-group>
+    </el-form-item>
+    <el-form-item v-if="form.type==='0'||form.type==='1'" v-for="optionID in optionNum" :label="'选项'+optionID">
+      <el-input placeholder="请输入选项内容"></el-input>
+    </el-form-item>
+    <br/>
+    <el-form-item>
+      <div v-if="form.type==='0'||form.type==='1'"><el-button icon="el-icon-plus" circle @click="addOption"></el-button>&nbsp;添加选项</div>
+      &nbsp;<br/>
     </el-form-item>
   </el-form>
 </template>
@@ -28,9 +36,17 @@
                     content: '',
                     type: "0",
                     option: {}
-                }
+                },
+                optionNum:0
             }
         },
+        methods:{
+            addOption(){
+                this.optionNum++;
+            },
+            handleChange(label){
+            }
+        }
     }
 </script>
 
