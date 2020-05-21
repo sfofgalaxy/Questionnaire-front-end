@@ -22,7 +22,7 @@
               <el-radio label="1" name="mode" border>未登录可作答N次</el-radio>
               <el-radio label="2" name="mode" border>未登录每日可作答N次</el-radio>
             </el-radio-group>&nbsp;&nbsp;
-            <el-input-number v-model="form.fillNumber" v-show="form.mode!=='0'" ></el-input-number>
+            <el-input-number :min="1" v-model="form.fillNumber" v-show="form.mode!=='0'" ></el-input-number>
           </el-form-item>
           <el-form-item label="问卷发布后即可开始作答">
             <el-switch v-model="form.open"></el-switch>
@@ -50,7 +50,8 @@
 <script>
     import Navigator from '@/components/Navigator';
     import Logo from '@/components/Logo';
-    import Question from "../components/Question";
+    import Question from "../components/Question"
+    import axios from 'axios';
     export default {
         components:{
             Question,
@@ -75,42 +76,44 @@
               this.questionNum++;
             },
             onSubmit() {
-                let i;
-                let param = new FormData();
                 let num = this.questionNum;
-                // for(i = 0; i<num; i++){
-                //
-                //     this.$refs.('question'+i).
-                // }
-                let question = [
-                    ["content1",0],//分别代表content,type
-                    ["content2",1],
-                    ["content3",2],
-                    ["content4",2],
-                ];
-                let option = [
-                    [1,"第一个问题的选项1"],//第一个参数对应第几个问题（非数据库中第几个问题）
-                    [1,"第一个问题的选项2"],
-                    [2,"第二个问题的选项1"],
-                ];
-                let author="me";
-                let title="hello";
-                let description="description";
+                let question = [], option=[];
+                for(let i = 0; i<num; i++){
+                //动态绑定ref需要写成[`question${i}`]
+                    let questionForm = this.$refs[`question${i}`].form;//问题类型和内容
+                    let optionNum = this.$refs[`question${i}`].optionNum;//选项数量
+                    let type = questionForm.type;
+                    let content = questionForm.content;
+                    question.push([content,type]);//分别代表content,type
+                    if(type==='0'||type==='1'){
+                        for(let j=0;j<optionNum;j++){
+                            //第一个参数对应第几个问题（非数据库中第几个问题）第二个参数代表选项内容
+                          option.push([i+1,questionForm.option[j]]);
+                        }
+                    }
+                }
+                let param = new FormData();
+                let author=this.$cookies.get('username');
+                let token = this.$cookies.get('token');
                 param.append("author",author);
-                param.append("title",title);
-                param.append("description",description);
-                param.append("mode",0);
-                param.append("fillnumber",10);
-                param.append("open",true);
+                param.append("title",this.form.title);
+                param.append("description",this.form.description);
+                param.append("mode",this.form.mode);
+                param.append("fillnumber",this.form.fillNumber);
+                param.append("open",this.form.open);
                 param.append("question", question);
                 param.append("option", option);
                 //0和10分别代表模式和最大允许填写次数
-                axios.post('/api/paper/test', param)
+                axios.post('/api/paper/test',param, {
+                    headers:{
+                        token:token
+                    }
+                })
                     .then((res) => {
-                        console.log(res);
+                        alert(res.data.message);
                     }).catch((error) => {
-                    console.log(error);
-                    return false;
+                      alert(error);
+                      return false;
                 });
           }
         }

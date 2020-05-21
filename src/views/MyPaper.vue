@@ -65,6 +65,7 @@
 
 <script>
     import Navigator from '@/components/Navigator';
+    import axios from 'axios';
     export default {
         components:{
             Navigator

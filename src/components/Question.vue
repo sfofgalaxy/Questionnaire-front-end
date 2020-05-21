@@ -17,7 +17,7 @@
       </el-radio-group>
     </el-form-item>
     <el-form-item v-if="form.type==='0'||form.type==='1'" v-for="optionID in optionNum" :label="'选项'+optionID">
-      <el-input placeholder="请输入选项内容"></el-input>
+      <el-input v-model="form.option[optionID-1]" placeholder="请输入选项内容"></el-input>
     </el-form-item>
     <br/>
     <el-form-item>
@@ -35,7 +35,7 @@
                 form: {
                     content: '',
                     type: "0",
-                    option: {}
+                    option: []
                 },
                 optionNum:0
             }
@@ -43,6 +43,7 @@
         methods:{
             addOption(){
                 this.optionNum++;
+                this.form.option.push("");
             },
             handleChange(label){
             }
