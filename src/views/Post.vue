@@ -104,13 +104,16 @@
                 param.append("question", question);
                 param.append("option", option);
                 //0和10分别代表模式和最大允许填写次数
-                axios.post('/api/paper/test',param, {
+                axios.post('/api/paper/post',param, {
                     headers:{
                         token:token
                     }
                 })
                     .then((res) => {
-                        alert(res.data.message);
+                        let resData = res.data;
+                        if(resData.state===true){
+                            alert("问卷已发布在: http://47.94.46.115/#/questionnaire?paperid="+resData.message);
+                        }else alert(resData.message);
                     }).catch((error) => {
                       alert(error);
                       return false;

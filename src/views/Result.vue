@@ -12,6 +12,7 @@
         <el-table
           :data="tableData"
           stripe
+          show-summary
           style="width: 100%">
           <el-table-column
             prop="date"
@@ -21,7 +22,9 @@
           <el-table-column
             prop="name"
             label="姓名"
-            width="180">
+            width="180"
+            sortable
+          >
           </el-table-column>
           <el-table-column
             prop="address"

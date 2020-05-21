@@ -16,6 +16,7 @@
             <el-table-column
               fixed
               prop="title"
+              sortable
               label="问卷标题"
               width="150">
             </el-table-column>
@@ -38,6 +39,12 @@
               prop="description"
               label="描述"
               width="300">
+            </el-table-column>
+            <el-table-column
+              prop="paperid"
+              label="链接"
+              width="300"
+            >
             </el-table-column>
             <el-table-column
               fixed="right"
@@ -66,6 +73,7 @@
 <script>
     import Navigator from '@/components/Navigator';
     import axios from 'axios';
+
     export default {
         components:{
             Navigator
@@ -78,6 +86,9 @@
           }
         },
         methods: {
+            copyURL(data){
+
+            },
             handleCheck(row) {
                 this.$router.push({name:'Result',params: {paperid:this.tableData[row].paperid}});
             },
@@ -104,10 +115,10 @@
             handleOpen(row){
                 let username = this.$cookies.get("username");
                 let token = this.$cookies.get("token");
+                let formData = new FormData();
+                formData.append("username",username);
                 axios.put('/api/paper/open/'+this.tableData[row].paperid,{
-                        params:{
-                            username: username
-                        },
+                        data:formData,
                         headers:{
                             token: token
                         }
@@ -125,13 +136,13 @@
             handleClose(row){
                 let username = this.$cookies.get("username");
                 let token = this.$cookies.get("token");
+                let formData = new FormData();
+                formData.append("username",username);
                 axios.put('/api/paper/close/'+this.tableData[row].paperid,{
-                        params:{
-                            username: username
-                        },
-                        headers:{
-                            token: token
-                        }
+                    data:formData,
+                    headers:{
+                        token: token
+                    }
                     }
                 )
                     .then((res)=>{
@@ -155,8 +166,11 @@
                     token: token
                 }
             }).then((res) => {
-                let myPapers = res.data;
-                this.tableData=myPapers;
+                let length = res.data.length;
+                this.tableData=res.data;
+                for(let i=0;i<length;i++){
+                    this.tableData[i].paperid="http://47.94.46.115/#/questionnaire?paperid="+this.tableData[i].paperid;
+                }
                 this.total = this.tableData.length
             }).catch((error) => {
                 console.log(error);
