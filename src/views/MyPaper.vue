@@ -16,7 +16,6 @@
             <el-table-column
               fixed
               prop="title"
-              sortable
               label="问卷标题"
               width="150">
             </el-table-column>
@@ -41,19 +40,18 @@
               width="300">
             </el-table-column>
             <el-table-column
-              prop="paperid"
+              prop="url"
               label="链接"
-              width="300"
-            >
+              width="300">
             </el-table-column>
             <el-table-column
               fixed="right"
               label="操作"
               width="100">
-              <template slot-scope="scope">
+              <template slot-scope="scope" >
                 <el-button @click="handleCheck(scope.row)" type="text" size="small">查看结果</el-button>
                 <el-button @click="handleDelete(scope.row)" type="text" size="small">删除</el-button>
-                <el-button v-if="this.tableData[scope.row].open" @click="handleClose(scope.row)" type="text" size="small">关闭</el-button>
+                <el-button v-if="scope.row.open==='open'" @click="handleClose(scope.row)" type="text" size="small">关闭</el-button>
                 <el-button v-else @click="handleOpen(scope.row)" type="text" size="small">开启</el-button>
               </template>
             </el-table-column>
@@ -76,7 +74,7 @@
 
     export default {
         components:{
-            Navigator
+            Navigator,
         },
         name: "MyPaper",
         data(){
@@ -86,16 +84,13 @@
           }
         },
         methods: {
-            copyURL(data){
-
-            },
             handleCheck(row) {
-                this.$router.push({name:'Result',params: {paperid:this.tableData[row].paperid}});
+                this.$router.push({name:'Result',params: {paperid:row.paperid}});
             },
             handleDelete(row){
                 let username = this.$cookies.get("username");
                 let token = this.$cookies.get("token");
-                axios.delete('/api/paper/delete/'+this.tableData[row].paperid,{
+                axios.delete('/api/paper/delete/'+row.paperid,{
                     params:{
                         username: username
                     },
@@ -106,10 +101,11 @@
                     .then((res)=>{
                      let resData =  res.data;
                      alert(resData.message);
-                     if(resData.state)this.$router.push('/mypaper');
+                     if(resData.state)this.$router.go(0);
                     })
                     .catch((error)=>{
-                       alert(error);
+                        alert(error+"登录已过期");
+                        this.$router.push("/login");
                     });
             },
             handleOpen(row){
@@ -117,8 +113,7 @@
                 let token = this.$cookies.get("token");
                 let formData = new FormData();
                 formData.append("username",username);
-                axios.put('/api/paper/open/'+this.tableData[row].paperid,{
-                        data:formData,
+                axios.put('/api/paper/open/'+row.paperid,formData,{
                         headers:{
                             token: token
                         }
@@ -127,10 +122,11 @@
                     .then((res)=>{
                         let resData = res.data;
                         alert(resData.message);
-                        if(resData.state)this.$router.push('/mypaper');
+                        if(resData.state)this.$router.go(0);
                     })
                     .catch((error)=>{
-                        alert(error);
+                        alert(error+"登录已过期");
+                        this.$router.push("/login");
                     });
             },
             handleClose(row){
@@ -138,44 +134,56 @@
                 let token = this.$cookies.get("token");
                 let formData = new FormData();
                 formData.append("username",username);
-                axios.put('/api/paper/close/'+this.tableData[row].paperid,{
-                    data:formData,
+                axios.put('/api/paper/close/'+row.paperid,formData,{
                     headers:{
                         token: token
                     }
-                    }
+                  }
                 )
                     .then((res)=>{
                         let resData = res.data;
                         alert(resData.message);
-                        if(resData.state)this.$router.push('/mypaper');
+                        if(resData.state)this.$router.go(0);
                     })
                     .catch((error)=>{
-                        alert(error);
+                        alert(error+"登录已过期");
+                        this.$router.push("/login");
                     });
-            }
+            },
+            async getTableData(){
+                let username = this.$cookies.get("username");
+                let token = this.$cookies.get("token");
+                await axios.get('/api/paper/myquestionnaire',{
+                    params:{
+                        username: username
+                    },
+                    headers:{
+                        token: token
+                    }
+                }).then((res) => {
+                    let length = res.data.length;
+                    this.tableData=res.data;
+                    for(let i=0;i<length;i++){
+                        if(this.tableData[i].open===true)this.tableData[i].open="open";
+                        else this.tableData[i].open="close";
+                        if(this.tableData[i].mode===0){
+                            this.tableData[i].mode="登录后可答";
+                            this.tableData[i].fillNumber='-';
+                        }
+                        else if(this.tableData[i].mode===1)this.tableData[i].mode="未注册可答N次";
+                        else this.tableData[i].mode="未注册每日可答N次";
+                        this.tableData[i].url="http://47.94.46.115/#/questionnaire?paperid="+this.tableData[i].paperid;
+                    }
+                    this.total = this.tableData.length
+                }).catch((error) => {
+                    alert(error+"登录已过期");
+                    this.$router.push("/login");
+                    return false;
+                });
+            },
         },
         mounted() {
-            let username = this.$cookies.get("username");
-            let token = this.$cookies.get("token");
-            axios.get('/api/paper/myquestionnaire',{
-                params:{
-                    username: username
-                },
-                headers:{
-                    token: token
-                }
-            }).then((res) => {
-                let length = res.data.length;
-                this.tableData=res.data;
-                for(let i=0;i<length;i++){
-                    this.tableData[i].paperid="http://47.94.46.115/#/questionnaire?paperid="+this.tableData[i].paperid;
-                }
-                this.total = this.tableData.length
-            }).catch((error) => {
-                console.log(error);
-                return false;
-            });
+            this.getTableData();
         }
     }
 </script>

@@ -29,11 +29,10 @@
           </el-form-item>
           <el-form-item style="font-weight: bold"
                         v-for="questionID in questionNum"
-                        :label="'问题'+questionID"
-                        :ref="'question'+questionID">
+                        :label="'问题'+questionID">
             <br/>
             <el-divider></el-divider>
-            <Question />
+            <Question :ref="'question'+questionID"/>
           </el-form-item>
           <el-form-item>
             <el-button icon="el-icon-plus" circle @click="addQuestion"></el-button>&nbsp;添加题目<br/><br/>
@@ -79,9 +78,9 @@
                 let num = this.questionNum;
                 let question = [], option=[];
                 for(let i = 0; i<num; i++){
-                //动态绑定ref需要写成[`question${i}`]
-                    let questionForm = this.$refs[`question${i}`].form;//问题类型和内容
-                    let optionNum = this.$refs[`question${i}`].optionNum;//选项数量
+                //动态绑定ref需要写成[`question${i+1}`]
+                    let questionForm = this.$refs[`question${i+1}`][0].form;//问题类型和内容
+                    let optionNum = this.$refs[`question${i+1}`][0].optionNum;//选项数量
                     let type = questionForm.type;
                     let content = questionForm.content;
                     question.push([content,type]);//分别代表content,type
@@ -103,6 +102,7 @@
                 param.append("open",this.form.open);
                 param.append("question", question);
                 param.append("option", option);
+                param.append("username",author);
                 //0和10分别代表模式和最大允许填写次数
                 axios.post('/api/paper/post',param, {
                     headers:{
@@ -115,7 +115,8 @@
                             alert("问卷已发布在: http://47.94.46.115/#/questionnaire?paperid="+resData.message);
                         }else alert(resData.message);
                     }).catch((error) => {
-                      alert(error);
+                      alert(error+"登录已过期");
+                      this.$router.push("/login");
                       return false;
                 });
           }

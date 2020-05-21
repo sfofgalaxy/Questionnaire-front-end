@@ -80,12 +80,10 @@
                         param.append("password",this.modifyPwdData.password);
                         //这里axios需要使用vue对象，因此必须使用为匿名函数的箭头函数
                         //这样this就指向了vue，就能使用$cookies
-                        axios.put({
+                        axios.put('/api/user/modifypwd',param,{
                             headers: {
                                 'token': this.$cookies.get("token")
-                            },
-                            url: '/api/user/modifypwd',
-                            data: param
+                            }
                         }).then((res)=>{
                             let resData=res.data;
                             if(resData.state===true){

@@ -24,7 +24,7 @@
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>
-        <el-link :disabled="disabled" href="http://47.94.46.115/#/make" :underline="false">
+        <el-link :disabled="disabled" href="http://47.94.46.115/#/post" :underline="false">
           <el-menu-item index="2" :disabled="disabled">
               <i class="el-icon-document-checked"></i>
               <span>发布问卷</span>
@@ -74,7 +74,7 @@
         },
         mounted() {
             let token = this.$cookies.get("token");
-            if(token!=null&&token!=""){
+            if(token!=null&&token!==""){
                 this.disabled=false;
             }
         }
