@@ -10,7 +10,7 @@
       <el-divider></el-divider>
       <el-main>
         <el-form ref="post" :model="form" label-width="200px">
-          <el-form-item label="问卷名称">
+          <el-form-item required label="问卷名称">
             <el-input maxlength="50" v-model="form.title"></el-input>
           </el-form-item>
           <el-form-item label="问卷描述">

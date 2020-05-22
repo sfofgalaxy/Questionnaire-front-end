@@ -8,7 +8,9 @@
     <el-divider></el-divider>
     <el-main>
       <el-form ref="question" :model="question" label-width="300px">
-        <el-form-item required="true" v-for="questionID in question.length" :label="question[questionID-1].content">
+        <el-form-item
+          v-for="questionID in question.length"
+          :label="question[questionID-1].content">
           <el-radio-group v-model="answer[questionID-1].content" v-if="question[questionID-1].type==='0'">
             <el-radio v-for="optionID in question[questionID-1].option.length" :label="question[questionID-1].option[optionID-1].content"></el-radio>
           </el-radio-group>
@@ -41,12 +43,12 @@
             onSubmit(){
                 let checkLength = this.checkedList.length;
                 for(let i=0;i<checkLength;i++){
-                  if(this.checkedList[i].length>0){
-                      console.log(this.checkedList[i]);
-                      for(let j=0;j<this.checkedList[i].length;j++){
-                          this.answer[i].content+=(this.checkedList[i][j]+";");
-                      }
-                  }
+                    if(this.checkedList[i].length>0){
+                        console.log(this.checkedList[i]);
+                        for(let j=0;j<this.checkedList[i].length;j++){
+                            this.answer[i].content+=(this.checkedList[i][j]+";");
+                        }
+                    }
                 }
                 let username = this.$cookies.get("username");
                 if(username==null)username="";
@@ -59,18 +61,18 @@
                 }
                 formData.append("answer",answer);
                 axios.post("/api/answer/"+this.paperid,formData)
-                  .then((res)=>{
-                    let resData = res.data;
-                    if(resData.state===true){
-                        alert("提交成功");
-                        this.$router.push("/");
-                    }else {
-                        alert(resData.message+"，请重新尝试");
-                    }
-                  })
-                  .catch((err)=>{
-                    alert(err);
-                });
+                    .then((res)=>{
+                        let resData = res.data;
+                        if(resData.state===true){
+                            alert("提交成功");
+                            this.$router.push("/");
+                        }else {
+                            alert(resData.message+"，请重新尝试");
+                        }
+                    })
+                    .catch((err)=>{
+                        alert(err);
+                    });
             },
             async getQuestion(){
                 let username = this.$cookies.get("username");
