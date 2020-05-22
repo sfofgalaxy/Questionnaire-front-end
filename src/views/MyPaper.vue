@@ -11,8 +11,14 @@
       <el-main>
           <el-table
             :data="tableData"
+            height="250"
             border
             style="width: 100%">
+            <el-table-column
+              type="index"
+              width="50"
+              label="序号">
+            </el-table-column>
             <el-table-column
               fixed
               prop="title"
@@ -22,17 +28,17 @@
             <el-table-column
               prop="mode"
               label="模式"
-              width="120">
+              width="150">
             </el-table-column>
             <el-table-column
               prop="fillnumber"
               label="可填写的次数"
-              width="120">
+              width="110">
             </el-table-column>
             <el-table-column
               prop="open"
               label="状态"
-              width="120">
+              width="60">
             </el-table-column>
             <el-table-column
               prop="description"
@@ -42,7 +48,7 @@
             <el-table-column
               prop="url"
               label="链接"
-              width="300">
+              width="350">
             </el-table-column>
             <el-table-column
               fixed="right"
@@ -85,7 +91,7 @@
         },
         methods: {
             handleCheck(row) {
-                this.$router.push({name:'Result',params: {paperid:row.paperid}});
+                this.$router.push('/result?paperid='+row.paperid);
             },
             handleDelete(row){
                 let username = this.$cookies.get("username");

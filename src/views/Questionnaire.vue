@@ -45,14 +45,13 @@
                 let checkLength = this.checkedList.length;
                 for(let i=0;i<checkLength;i++){
                     if(this.checkedList[i].length>0){
-                        console.log(this.checkedList[i]);
                         for(let j=0;j<this.checkedList[i].length;j++){
                             this.answer[i].content+=(this.checkedList[i][j]+";");
                         }
                     }
                 }
                 let username = this.$cookies.get("username");
-                if(username==null)username="";
+                if(username == null)username="";
                 let answer=[],answerLength=this.answer.length;
                 //答题传输数据到/answer/{paperid}时，一组数[num,content]分别对应questionID.content
                 for(let i=0;i<answerLength;i++){
@@ -78,6 +77,7 @@
             },
             async getQuestion(){
                 let username = this.$cookies.get("username");
+                if(username == null)username="";
                 await axios.get("/api/paper/"+this.paperid,{
                     params:{
                       username: username
@@ -111,7 +111,10 @@
                                 this.checkedList.push([]);
                             }
                         }
-                        else alert(resData.message);
+                        else {
+                            alert(resData.message);
+                            this.$router.push("/login");
+                        }
                     })
                     .catch((err)=>{
                         alert(err);

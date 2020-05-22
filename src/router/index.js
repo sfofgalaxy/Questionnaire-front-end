@@ -7,8 +7,8 @@ import Questionnaire from '@/views/Questionnaire'
 import Home from '@/views/Home'
 import Modifypwd from "@/views/Modifypwd";
 import MyPaper from "@/views/MyPaper";
-import Test from "../views/Test";
-import Post from "../views/Post";
+import Post from "@/views/Post";
+import Result from "@/views/Result";
 
 Vue.use(Router);
 
@@ -55,9 +55,9 @@ export default new Router({
       component: MyPaper
     },
     {
-      path: '/test',
-      name: 'Test',
-      component: Test
-    },
+      path: '/result',
+      name: 'Result',
+      component: Result
+    }
   ]
 })
