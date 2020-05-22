@@ -9,6 +9,7 @@
     <el-main>
       <el-form ref="question" :model="question" label-width="300px">
         <el-form-item
+          required="true"
           v-for="questionID in question.length"
           :label="question[questionID-1].content">
           <el-radio-group v-model="answer[questionID-1].content" v-if="question[questionID-1].type==='0'">
@@ -36,7 +37,6 @@
 <script>
     import axios from 'axios';
     import returnCitySN from 'returnCitySN';
-    import BMap from 'BMap'
 
     export default {
         name: "Questionnaire",
@@ -138,13 +138,7 @@
           },
             getLocation(questionID){
               this.answer[questionID].content = "正在定位...";
-                const geolocation = new BMap.Geolocation();
-                geolocation.getCurrentPosition((position)=>{
-                    //获取城市信息
-                    this.answer[questionID].content = ""+position.address.city;
-                }, (e)=> {
-                    this.answer[questionID].content = "定位失败"
-                }, {provider: 'baidu'});
+              this.answer[questionID].content = returnCitySN['cname'];
             }
         },
         data(){
