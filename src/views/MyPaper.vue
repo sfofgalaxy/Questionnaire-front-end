@@ -168,7 +168,7 @@
                         else this.tableData[i].open="close";
                         if(this.tableData[i].mode===0){
                             this.tableData[i].mode="登录后可答";
-                            this.tableData[i].fillNumber='-';
+                            this.tableData[i].fillnumber="-";
                         }
                         else if(this.tableData[i].mode===1)this.tableData[i].mode="未注册可答N次";
                         else this.tableData[i].mode="未注册每日可答N次";

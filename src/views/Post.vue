@@ -9,7 +9,7 @@
       </el-header>
       <el-divider></el-divider>
       <el-main>
-        <el-form ref="form" :model="form" label-width="200px">
+        <el-form ref="post" :model="form" label-width="200px">
           <el-form-item label="问卷名称">
             <el-input maxlength="50" v-model="form.title"></el-input>
           </el-form-item>
@@ -113,6 +113,7 @@
                         let resData = res.data;
                         if(resData.state===true){
                             alert("问卷已发布在: http://47.94.46.115/#/questionnaire?paperid="+resData.message);
+                            this.$router.push("/mypaper");
                         }else alert(resData.message);
                     }).catch((error) => {
                       alert(error+"登录已过期");
