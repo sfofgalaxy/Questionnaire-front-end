@@ -35,7 +35,8 @@
 
 <script>
     import axios from 'axios';
-    import BMap from 'BMap';
+    import returnCitySN from 'returnCitySN';
+    import BMap from 'BMap'
 
     export default {
         name: "Questionnaire",
@@ -52,14 +53,15 @@
                 }
                 let username = this.$cookies.get("username");
                 if(username==null)username="";
-                let formData = new FormData();
-                formData.append("username",username);
                 let answer=[],answerLength=this.answer.length;
                 //答题传输数据到/answer/{paperid}时，一组数[num,content]分别对应questionID.content
                 for(let i=0;i<answerLength;i++){
                     answer.push([this.answer[i].questionid,this.answer[i].content]);
                 }
+                let formData = new FormData();
+                formData.append("username",username);
                 formData.append("answer",answer);
+                formData.append("ip",returnCitySN['cip']);
                 axios.post("/api/answer/"+this.paperid,formData)
                     .then((res)=>{
                         let resData = res.data;
@@ -135,7 +137,7 @@
               return myStr;
           },
             getLocation(questionID){
-              this.answer[questionID].content = "正在定位";
+              this.answer[questionID].content = "正在定位...";
                 const geolocation = new BMap.Geolocation();
                 geolocation.getCurrentPosition((position)=>{
                     //获取城市信息

@@ -16,6 +16,7 @@ module.exports = {
     app: './src/main.js'
   },
   externals:{
+    "returnCitySN":"returnCitySN",
     "BMap":"BMap"
   },
   output: {
